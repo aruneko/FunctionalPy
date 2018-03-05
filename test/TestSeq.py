@@ -1,6 +1,6 @@
 import unittest
 
-from functionalpy.Seq import Seq
+from functionalpy import Seq
 
 
 class TestSeq(unittest.TestCase):
