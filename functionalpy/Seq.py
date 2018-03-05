@@ -1,11 +1,12 @@
 from functools import reduce
-from typing import Callable, TypeVar, Generic
+from typing import Callable, TypeVar, Generic, Tuple
 
 from functionalpy.Foldable import Foldable
 from functionalpy.Monad import Monad
 
 A = TypeVar('A')
 B = TypeVar('B')
+C = TypeVar('C')
 
 
 class Seq(list, Monad, Foldable, Generic[A]):
@@ -35,6 +36,14 @@ class Seq(list, Monad, Foldable, Generic[A]):
     def filter(self, f):
         # type: (Callable[[A], bool]) -> Seq[A]
         return Seq(*filter(f, self))
+
+    def zip(self, xs):
+        # type: (Seq[B]) -> Seq[Tuple[A, B]]
+        return Seq(*zip(self, xs))
+
+    def zip_with(self, f, xs):
+        # type: (Callable[[A, B], C], Seq[B]) -> Seq[C]
+        return Seq(*map(f, self, xs))
 
     def head(self) -> A:
         return self[0]
