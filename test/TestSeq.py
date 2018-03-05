@@ -63,6 +63,13 @@ class TestSeq(unittest.TestCase):
 
         self.assertEqual(seq.flat_map(f).flat_map(g), seq.flat_map(lambda x: f(x).flat_map(g)))
 
+    def test_fold(self):
+        seq = Seq(1, 2, 3, 4, 5)
+        expect = 15
+        actual = seq.fold(lambda x, y: x + y, 0)
+
+        self.assertEqual(expect, actual)
+
 
 if __name__ == '__main__':
     unittest.main()
