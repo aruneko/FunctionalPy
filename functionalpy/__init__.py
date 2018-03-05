@@ -26,6 +26,10 @@ class Seq(list, Monad, Foldable, Generic[A]):
         # type: (Callable[[A], Seq[B]]) -> Seq[B]
         return Seq(*[y for x in self for y in f(x)])
 
+    def flatten(self):
+        # type: () -> Seq[A]
+        return Seq(*[i for out in self for i in out])
+
     def fold(self, f, x):
         # type: (Callable[[B, A], B], B) -> B
         return reduce(f, self, x)
