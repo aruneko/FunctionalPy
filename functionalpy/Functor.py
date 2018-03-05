@@ -1,11 +1,11 @@
-from abc import ABC, abstractmethod
+from abc import abstractmethod, ABCMeta
 from typing import TypeVar, Callable, Generic
 
 A = TypeVar('A')
 B = TypeVar('B')
 
 
-class Functor(ABC, Generic[A]):
+class Functor(Generic[A], metaclass=ABCMeta):
     @abstractmethod
     def map(self, f):
         # type: (Callable[[A], B]) -> Functor[B]

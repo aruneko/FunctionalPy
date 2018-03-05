@@ -1,4 +1,4 @@
-from typing import Generic, TypeVar, Callable, Union, Type
+from typing import Generic, TypeVar, Callable
 
 from functionalpy.Monad import Monad
 
@@ -11,7 +11,7 @@ class Maybe(Monad, Generic[A]):
         self.value = x
 
 
-class Nothing(Maybe, Generic[A]):
+class _Nothing(Maybe, Generic[A]):
     def __init__(self, x: A) -> None:
         super().__init__(x)
 
@@ -35,6 +35,9 @@ class Nothing(Maybe, Generic[A]):
         return x
 
 
+Nothing = _Nothing(None)
+
+
 class Just(Maybe, Generic[A]):
     def __init__(self, x: A) -> None:
         super().__init__(x)
@@ -49,7 +52,7 @@ class Just(Maybe, Generic[A]):
     def ap(self, f):
         # type: (Maybe[Callable[[A], B]]) -> Maybe[B]
         if f is Nothing:
-            return Nothing(None)
+            return Nothing
         else:
             return Just(f.value(self.value))
 
@@ -57,13 +60,10 @@ class Just(Maybe, Generic[A]):
         # type: (Callable[[A], Maybe[B]]) -> Maybe[B]
         result = f(self.value)
         if result is Nothing:
-            return Nothing(None)
+            return Nothing
         else:
             return result
 
     def get_or_else(self, _):
         # type: (A) -> A
         return self.value
-
-
-Nothing = Nothing(None)

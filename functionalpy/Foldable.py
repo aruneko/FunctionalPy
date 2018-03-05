@@ -1,11 +1,11 @@
-from abc import ABC, abstractmethod
+from abc import abstractmethod, ABCMeta
 from typing import Callable, TypeVar
 
 A = TypeVar('A')
 B = TypeVar('B')
 
 
-class Foldable(ABC):
+class Foldable(metaclass=ABCMeta):
     @abstractmethod
     def fold(self, f, x):
         # type: (Callable[[B, A], B], B) -> B
@@ -13,5 +13,5 @@ class Foldable(ABC):
 
     @abstractmethod
     def fold1(self, f):
-        # type: (Callable[[A], A]) -> A
+        # type: (Callable[[A, A], A]) -> A
         pass
