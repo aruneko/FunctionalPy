@@ -8,7 +8,7 @@ A = TypeVar('A')
 B = TypeVar('B')
 
 
-class Seq(list, Generic[A], Monad, Foldable):
+class Seq(list, Monad, Foldable, Generic[A]):
     def __init__(self, *values) -> None:
         super().__init__(values)
 
