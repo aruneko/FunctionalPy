@@ -35,3 +35,17 @@ class Seq(list, Monad, Foldable, Generic[A]):
     def filter(self, f):
         # type: (Callable[[A], bool]) -> Seq[A]
         return Seq(*filter(f, self))
+
+    def head(self) -> A:
+        return self[0]
+
+    def tail(self):
+        # type: () -> Seq[A]
+        return self[1:]
+
+    def last(self) -> A:
+        return self[-1]
+
+    def init(self):
+        # type: () -> Seq[A]
+        return self[:-1]
