@@ -22,6 +22,10 @@ class Nothing(Monad):
         # type: (Callable[[A], Maybe[B]]) -> Maybe[B]
         return self
 
+    def get_or_else(self, x):
+        # type: (A) -> A
+        return x
+
 
 class Just(Monad, Generic[A]):
     def __init__(self, x: A) -> None:
@@ -48,6 +52,10 @@ class Just(Monad, Generic[A]):
             return Nothing
         else:
             return result
+
+    def get_or_else(self, _):
+        # type: (A) -> A
+        return self.value
 
 
 Maybe = Union[Just, Nothing]
