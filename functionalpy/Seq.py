@@ -29,7 +29,7 @@ class Seq(list, Monad, Foldable, Generic[A]):
         return reduce(f, self, x)
 
     def fold1(self, f):
-        # type: (Callable[[A], A]) -> A
+        # type: (Callable[[A, A], A]) -> A
         return reduce(f, self)
 
     def filter(self, f):
@@ -41,11 +41,11 @@ class Seq(list, Monad, Foldable, Generic[A]):
 
     def tail(self):
         # type: () -> Seq[A]
-        return self[1:]
+        return Seq(*self[1:])
 
     def last(self) -> A:
         return self[-1]
 
     def init(self):
         # type: () -> Seq[A]
-        return self[:-1]
+        return Seq(*self[:-1])
