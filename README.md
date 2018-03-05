@@ -19,6 +19,9 @@ Functorであり、apできるやつ
 ### Monad
 Applicativeであり、flat_mapできるやつ
 
+### Foldable
+要するにたたみ込めるやつ
+
 ## 既知の問題
 - 一部のメソッドで型検査時に`incompatible with supertype`が発生する
     - あるインターフェースに含まれるメソッドを実装したとき、型ヒントを具象クラスのものにしてしまうと発生する
