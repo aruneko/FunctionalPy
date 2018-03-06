@@ -16,7 +16,7 @@ class Seq(list, Monad, Foldable, Generic[A]):
 
     def map(self, f):
         # type: (Callable[[A], B]) -> Seq[B]
-        return Seq(*map(f, self))
+        return Seq(*[f(x) for x in self])
 
     def ap(self, fs):
         # type: (Seq[Callable[[A], B]]) -> Seq[B]
