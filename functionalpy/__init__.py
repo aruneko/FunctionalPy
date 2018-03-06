@@ -59,14 +59,29 @@ class Seq(list, Monad, Foldable, Generic[A]):
         # type: () -> Tuple[Seq[A], Seq[B]]
         return self.map(lambda x: x[0]), self.map(lambda x: x[1])
 
-    def head(self) -> A:
+    def sort(self):
+        # type: () -> Seq[A]
+        return Seq(*sorted(self))
+
+    def reverse(self):
+        # type: () -> Seq[A]
+        return Seq(*reversed(self))
+
+    def for_each(self, f):
+        # type: (Callable[[A], None]) -> None
+        for x in self:
+            f(x)
+
+    def head(self):
+        # type: () -> A
         return self[0]
 
     def tail(self):
         # type: () -> Seq[A]
         return Seq(*self[1:])
 
-    def last(self) -> A:
+    def last(self):
+        # type: () -> A
         return self[-1]
 
     def init(self):
