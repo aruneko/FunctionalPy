@@ -1,6 +1,6 @@
 from abc import ABCMeta
 from functools import reduce
-from typing import Callable, TypeVar, Generic, Tuple
+from typing import Callable, TypeVar, Generic, Tuple, Iterable
 
 from functionalpy.Foldable import Foldable
 from functionalpy.Monad import Monad
@@ -13,6 +13,11 @@ C = TypeVar('C')
 class Seq(list, Monad, Foldable, Generic[A]):
     def __init__(self, *values) -> None:
         super().__init__(values)
+
+    @staticmethod
+    def to_seq(iterable):
+        # type: (Iterable[A]) -> Seq[A]
+        return Seq(*iterable)
 
     def map(self, f):
         # type: (Callable[[A], B]) -> Seq[B]
