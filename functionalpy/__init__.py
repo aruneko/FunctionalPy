@@ -69,7 +69,7 @@ class Seq(list, Monad, Foldable, Generic[A]):
         return Seq(*sorted(self))
 
     def sort_by_key(self, key_func):
-        # type: (Callable[[Iterable[A]], A]) -> Seq[Iterable[A]]
+        # type: (Callable[[Iterable[A]], A]) -> Seq[Seq[A]]
         return Seq(*sorted(self, key=key_func))
 
     def group(self):
