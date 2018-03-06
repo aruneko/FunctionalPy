@@ -20,14 +20,17 @@ class Seq(list, Monad, Foldable, Generic[A]):
         # type: (Iterable[A]) -> Seq[A]
         return Seq(*iterable)
 
+    # Functor
     def map(self, f):
         # type: (Callable[[A], B]) -> Seq[B]
         return Seq(*[f(x) for x in self])
 
+    # Applicative
     def ap(self, fs):
         # type: (Seq[Callable[[A], B]]) -> Seq[B]
         return Seq(*[f(x) for f in fs for x in self])
 
+    # Monad
     def flat_map(self, f):
         # type: (Callable[[A], Seq[B]]) -> Seq[B]
         return Seq(*[y for x in self for y in f(x)])
@@ -36,6 +39,7 @@ class Seq(list, Monad, Foldable, Generic[A]):
         # type: () -> Seq[A]
         return Seq(*[i for out in self for i in out])
 
+    # Foldable
     def fold(self, f, x):
         # type: (Callable[[B, A], B], B) -> B
         return reduce(f, self, x)
@@ -44,6 +48,7 @@ class Seq(list, Monad, Foldable, Generic[A]):
         # type: (Callable[[A, A], A]) -> A
         return reduce(f, self)
 
+    # Seq固有
     def filter(self, f):
         # type: (Callable[[A], bool]) -> Seq[A]
         return Seq(*filter(f, self))
@@ -69,7 +74,7 @@ class Seq(list, Monad, Foldable, Generic[A]):
         return Seq(*sorted(self))
 
     def sort_by_key(self, key_func):
-        # type: (Callable[[Iterable[A]], A]) -> Seq[Seq[A]]
+        # type: (Callable[[Iterable[A]], A]) -> Seq[A]
         return Seq(*sorted(self, key=key_func))
 
     def group(self):
