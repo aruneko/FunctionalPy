@@ -56,6 +56,10 @@ class Seq(list, Monad, Foldable, Generic[A]):
         # type: (Callable[[A, B], C], Seq[B]) -> Seq[C]
         return Seq(*map(f, self, xs))
 
+    def zip_with_index(self):
+        # type: () -> Seq[Tuple[A, int]]
+        return Seq(*[(x, i) for i, x in enumerate(self)])
+
     def unzip(self):
         # type: () -> Tuple[Seq[A], Seq[B]]
         return self.map(lambda x: x[0]), self.map(lambda x: x[1])
