@@ -109,6 +109,10 @@ class Seq(list, Monad, Foldable, Generic[A]):
         # type: (int) -> Seq[A]
         return Seq(*self[n:])
 
+    def length(self):
+        # type: () -> int
+        return len(self)
+
 
 class Maybe(Monad, Generic[A], metaclass=ABCMeta):
     def __init__(self, x: A) -> None:
