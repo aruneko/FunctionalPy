@@ -5,13 +5,14 @@ from typing import Callable, TypeVar, Generic, Tuple, Iterable
 
 from functionalpy.Foldable import Foldable
 from functionalpy.Monad import Monad
+from functionalpy.Monoid import Monoid
 
 A = TypeVar('A')
 B = TypeVar('B')
 C = TypeVar('C')
 
 
-class Seq(list, Monad, Foldable, Generic[A]):
+class Seq(list, Monad, Foldable, Monoid, Generic[A]):
     def __init__(self, *values) -> None:
         super().__init__(values)
 
@@ -47,6 +48,20 @@ class Seq(list, Monad, Foldable, Generic[A]):
     def fold1(self, f):
         # type: (Callable[[A, A], A]) -> A
         return reduce(f, self)
+
+    # Monoid
+    @staticmethod
+    def mempty():
+        # type: () -> Seq[A]
+        return Seq()
+
+    def append(self, seq):
+        # type: (Seq[A]) -> Seq[A]
+        return Seq(*(super().__add__(seq)))
+
+    def __add__(self, other):
+        # type: (Seq[A]) -> Seq[A]
+        return self.append(other)
 
     # Seq固有
     def filter(self, f):
