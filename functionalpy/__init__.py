@@ -1,6 +1,7 @@
 from abc import ABCMeta
 from functools import reduce
-from typing import Callable, TypeVar, Generic, Tuple
+from itertools import groupby
+from typing import Callable, TypeVar, Generic, Tuple, Iterable
 
 from functionalpy.Foldable import Foldable
 from functionalpy.Monad import Monad
@@ -13,6 +14,11 @@ C = TypeVar('C')
 class Seq(list, Monad, Foldable, Generic[A]):
     def __init__(self, *values) -> None:
         super().__init__(values)
+
+    @staticmethod
+    def to_seq(iterable):
+        # type: (Iterable[A]) -> Seq[A]
+        return Seq(*iterable)
 
     def map(self, f):
         # type: (Callable[[A], B]) -> Seq[B]
@@ -50,23 +56,66 @@ class Seq(list, Monad, Foldable, Generic[A]):
         # type: (Callable[[A, B], C], Seq[B]) -> Seq[C]
         return Seq(*map(f, self, xs))
 
+    def zip_with_index(self):
+        # type: () -> Seq[Tuple[A, int]]
+        return Seq(*[(x, i) for i, x in enumerate(self)])
+
     def unzip(self):
         # type: () -> Tuple[Seq[A], Seq[B]]
         return self.map(lambda x: x[0]), self.map(lambda x: x[1])
 
-    def head(self) -> A:
+    def sort(self):
+        # type: () -> Seq[A]
+        return Seq(*sorted(self))
+
+    def sort_by_key(self, key_func):
+        # type: (Callable[[Iterable[A]], A]) -> Seq[Iterable[A]]
+        return Seq(*sorted(self, key=key_func))
+
+    def group(self):
+        # type: () -> Seq[Seq[A]]
+        return self.group_by(lambda x: x)
+
+    def group_by(self, key_func):
+        # type: (Callable[[Iterable[A]], A]) -> Seq[Seq[A]]
+        return Seq(*[Seq(*v) for _, v in groupby(self, key=key_func)])
+
+    def reverse(self):
+        # type: () -> Seq[A]
+        return Seq(*reversed(self))
+
+    def for_each(self, f):
+        # type: (Callable[[A], None]) -> None
+        for x in self:
+            f(x)
+
+    def head(self):
+        # type: () -> A
         return self[0]
 
     def tail(self):
         # type: () -> Seq[A]
         return Seq(*self[1:])
 
-    def last(self) -> A:
+    def last(self):
+        # type: () -> A
         return self[-1]
 
     def init(self):
         # type: () -> Seq[A]
         return Seq(*self[:-1])
+
+    def take(self, n):
+        # type: (int) -> Seq[A]
+        return Seq(*self[:n])
+
+    def drop(self, n):
+        # type: (int) -> Seq[A]
+        return Seq(*self[n:])
+
+    def length(self):
+        # type: () -> int
+        return len(self)
 
 
 class Maybe(Monad, Generic[A], metaclass=ABCMeta):
