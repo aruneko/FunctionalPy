@@ -1,5 +1,6 @@
 from abc import ABCMeta
 from functools import reduce
+from itertools import groupby
 from typing import Callable, TypeVar, Generic, Tuple, Iterable
 
 from functionalpy.Foldable import Foldable
@@ -66,6 +67,14 @@ class Seq(list, Monad, Foldable, Generic[A]):
     def sort_by_key(self, key_func):
         # type: (Callable[[Iterable[A]], A]) -> Seq[Iterable[A]]
         return Seq(*sorted(self, key=key_func))
+
+    def group(self):
+        # type: () -> Seq[Seq[A]]
+        return self.group_by(lambda x: x)
+
+    def group_by(self, key_func):
+        # type: (Callable[[Iterable[A]], A]) -> Seq[Seq[A]]
+        return Seq(*[Seq(*v) for _, v in groupby(self, key=key_func)])
 
     def reverse(self):
         # type: () -> Seq[A]
