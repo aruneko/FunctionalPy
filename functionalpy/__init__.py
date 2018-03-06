@@ -63,6 +63,10 @@ class Seq(list, Monad, Foldable, Generic[A]):
         # type: () -> Seq[A]
         return Seq(*sorted(self))
 
+    def sort_by_key(self, key_func):
+        # type: (Callable[[Iterable[A]], A]) -> Seq[Iterable[A]]
+        return Seq(*sorted(self, key=key_func))
+
     def reverse(self):
         # type: () -> Seq[A]
         return Seq(*reversed(self))
