@@ -104,6 +104,10 @@ class Seq(list, Monad, Foldable, Monoid, Generic[A]):
         # type: () -> Seq[A]
         return Seq(*reversed(self))
 
+    def unique(self):
+        # tyoe () -> Seq[A]
+        return Seq(*set(self))
+
     def for_each(self, f):
         # type: (Callable[[A], None]) -> None
         for x in self:
