@@ -22,7 +22,7 @@ Applicativeであり、flat_mapできるやつ
 ### Foldable
 要するにたたみ込めるやつ
 
-## Monoid
+### Monoid
 二項演算ができるやつ(不正確)
 
 ## 既知の問題
