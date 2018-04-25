@@ -109,7 +109,7 @@ class Seq(list, Monad, Foldable, Monoid, Generic[A]):
         return Seq(*reversed(self))
 
     def unique(self):
-        # tyoe () -> Seq[A]
+        # type () -> Seq[A]
         return Seq(*set(self))
 
     def for_each(self, f):
