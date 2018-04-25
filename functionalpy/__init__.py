@@ -145,7 +145,8 @@ class Seq(list, Monad, Foldable, Monoid, Generic[A]):
         # type: () -> int
         return len(self)
 
-    def cons(self, a: A):
+    def cons(self, a):
+        # type: (A) -> Seq[A]
         return Seq(a) + self
 
 
