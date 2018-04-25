@@ -1,7 +1,7 @@
 from abc import ABCMeta
 from functools import reduce
 from itertools import groupby
-from typing import Callable, TypeVar, Generic, Tuple, Iterable
+from typing import Callable, TypeVar, Generic, Tuple, Iterable, List
 
 from functionalpy.Foldable import Foldable
 from functionalpy.Monad import Monad
@@ -20,6 +20,10 @@ class Seq(list, Monad, Foldable, Monoid, Generic[A]):
     def to_seq(iterable):
         # type: (Iterable[A]) -> Seq[A]
         return Seq(*iterable)
+
+    def to_list(self):
+        # type: () -> List[A]
+        return self
 
     # Functor
     def map(self, f):
