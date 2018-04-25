@@ -141,6 +141,9 @@ class Seq(list, Monad, Foldable, Monoid, Generic[A]):
         # type: () -> int
         return len(self)
 
+    def cons(self, a: A):
+        return Seq(a) + self
+
 
 class Maybe(Monad, Generic[A], metaclass=ABCMeta):
     def __init__(self, x: A) -> None:
