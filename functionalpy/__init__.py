@@ -149,6 +149,14 @@ class Seq(list, Monad, Foldable, Monoid, Generic[A]):
         # type: (A) -> Seq[A]
         return Seq(a) + self
 
+    def get(self, f):
+        # type: (Callable[[A], bool]) -> Optional[A]
+        result = Seq(*filter(f, self))
+        if result.length() == 0:
+            return None
+        else:
+            return result.head()
+
 
 class Maybe(Monad, Generic[A], metaclass=ABCMeta):
     def __init__(self, x: A) -> None:
